@@ -16,7 +16,7 @@ function App() {
           over!
         </div>
         <div className="w-full h-full flex flex-col items-center justify-center">
-          <div className="bg-[#c7c7c7] rounded-md">
+          <div className="bg-[#c7c7c7] rounded-md relative">
             <div className="flex flex-row">
               <Tile
                 id={1}
@@ -30,7 +30,7 @@ function App() {
                 angle={90}
               />
             </div>
-            <div className="z-10 w-56 h-56 shadow-md bg-[#c7c7c7] rounded-full flex items-center justify-center mx-auto my-auto fixed inset-0">
+            <div className="z-10 w-56 h-56 shadow-md bg-[#c7c7c7] rounded-full flex items-center justify-center absolute top-[17%] left-[17%] md:top-[27%] md:left-[27%]">
               <div className="flex flex-col items-center gap-3">
                 <div>
                   <span className="text-3xl font-bold text-gray-800">
