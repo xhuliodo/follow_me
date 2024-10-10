@@ -25,7 +25,7 @@ interface GameState {
 export const useGameStore = create<GameState>((set, get) => ({
   going: false,
   win: false,
-  winScore: 3,
+  winScore: 20,
   winGame: () => {
     set(() => ({ win: true }));
     setTimeout(() => get().startGame(), 5000);
