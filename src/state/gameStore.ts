@@ -39,7 +39,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   userSequence: [],
   showing: false,
   error: false,
-  strict: false,
+  strict: true,
   changeStrictMode: () => {
     if (get().going) {
       return;
