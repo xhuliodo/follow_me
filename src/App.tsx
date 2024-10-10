@@ -20,12 +20,12 @@ function App() {
             <div className="flex flex-row">
               <Tile
                 id={1}
-                audioUrl="public/simonSound1.mp3"
+                audioUrl="simonSound1.mp3"
                 backgroundColor="bg-cyan-400"
               />
               <Tile
                 id={2}
-                audioUrl="public/simonSound2.mp3"
+                audioUrl="simonSound2.mp3"
                 backgroundColor="bg-fuchsia-400"
                 angle={90}
               />
@@ -61,13 +61,13 @@ function App() {
             <div className="flex flex-row">
               <Tile
                 id={3}
-                audioUrl="public/simonSound3.mp3"
+                audioUrl="simonSound3.mp3"
                 backgroundColor="bg-lime-400"
                 angle={270}
               />
               <Tile
                 id={4}
-                audioUrl="public/simonSound4.mp3"
+                audioUrl="simonSound4.mp3"
                 backgroundColor="bg-yellow-400"
                 angle={180}
               />
