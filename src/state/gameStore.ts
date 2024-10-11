@@ -2,10 +2,8 @@ import { create } from "zustand";
 
 interface GameState {
   going: boolean;
-  win: boolean;
-  winScore: number;
-  winGame: () => void;
   score: number;
+  saveScore: (gaveUp: boolean) => number;
   waitingPeriod: number;
   showPeriod: number;
   sequence: number[];
@@ -24,15 +22,26 @@ interface GameState {
 
 export const useGameStore = create<GameState>((set, get) => ({
   going: false,
-  win: false,
-  winScore: 20,
-  winGame: () => {
-    set(() => ({ win: true }));
-    setTimeout(() => get().startGame(), 5000);
-  },
   score: localStorage.getItem("bestScore")
     ? Number(localStorage.getItem("bestScore"))
     : 0,
+  saveScore: (gaveUp) => {
+    let bestScore: number;
+    const bestScoreString = localStorage.getItem("bestScore");
+    if (bestScoreString === null) {
+      bestScore = 0;
+    } else {
+      bestScore = Number(bestScoreString);
+    }
+    let scoreToCompare = get().score;
+    if (gaveUp) scoreToCompare -= 1;
+    if (bestScore < scoreToCompare) {
+      bestScore = scoreToCompare;
+    }
+    localStorage.setItem("bestScore", bestScore.toString());
+
+    return bestScore;
+  },
   waitingPeriod: 200,
   showPeriod: 500,
   sequence: [],
@@ -81,18 +90,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     set(() => ({ showing: false }));
   },
   endGame: () => {
-    let bestScore: number;
-    const bestScoreString = localStorage.getItem("bestScore");
-    if (bestScoreString === null) {
-      bestScore = 0;
-    } else {
-      bestScore = Number(bestScoreString);
-    }
-    if (bestScore < get().score - 1) {
-      bestScore = get().score - 1;
-    }
+    const bestScore = get().saveScore(true);
     set(() => ({ score: bestScore, going: false, sequence: [] }));
-    localStorage.setItem("bestScore", bestScore.toString());
   },
   addUserSequence: async (step) => {
     const seq = get().sequence;
@@ -102,14 +101,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (seq[userSeq.length] === step) {
       // check if it is the final step
       if (seq.length - 1 === userSeq.length) {
+        get().saveScore(false);
         set(() => ({ userSequence: [] }));
-
-        // check if this is the last level
-        if (get().score === get().winScore) {
-          get().winGame();
-          return;
-        }
-
         get().nextLevel();
         return;
       }

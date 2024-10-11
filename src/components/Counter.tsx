@@ -15,7 +15,6 @@ export const Counter = () => {
   }, [game.score]);
 
   const renderScore = () => {
-    if (game.win) return "WIN";
     if (game.error) return "!!";
     if (game.score === 0) return "--";
     return game.score < 10 ? `0${game.score}` : game.score;
@@ -23,7 +22,7 @@ export const Counter = () => {
 
   const getOpacityClass = () => {
     // If win or error, toggle opacity
-    if (game.win || game.error) {
+    if (game.error) {
       return isVisible ? "opacity-100" : "opacity-0";
     }
 
