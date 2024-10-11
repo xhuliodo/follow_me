@@ -1,4 +1,5 @@
 import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { Howl } from "howler";
 import { useGameStore } from "../state/gameStore";
 
 interface Props {
@@ -21,15 +22,16 @@ export const Tile: FC<Props> = ({
   const game = useGameStore();
 
   // handling audio
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<Howl | null>(null);
   useEffect(() => {
     if (audioUrl) {
-      audioRef.current = new Audio(audioUrl);
+      const sound = new Howl({ src: audioUrl });
+      audioRef.current = sound;
     }
   }, [audioUrl]);
+
   const playAudio = () => {
     if (audioRef.current) {
-      audioRef.current.currentTime = 0; // Reset to the beginning
       audioRef.current.play();
     }
   };
