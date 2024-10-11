@@ -1,6 +1,6 @@
 import { Tile } from "./components/Tile";
 import { Counter } from "./components/Counter";
-import { Button } from "./components/Button";
+import { StartEndButton } from "./components/StartEndButton";
 import { useGameStore } from "./state/gameStore";
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
                       ${game.strict ? "bg-red-500" : "bg-red-100"} h-2 w-2`}
                   ></div>
                   <div className="flex flex-row gap-2">
-                    <Button />
+                    <StartEndButton />
                     <div className="flex flex-col items-center justify-start">
                       <span className="text-xs">Strict</span>
                       <div

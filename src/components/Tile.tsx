@@ -6,16 +6,12 @@ interface Props {
   id: number;
   angle?: 0 | 90 | 180 | 270;
   audioUrl?: string;
-  backgroundColor?:
-    | "bg-cyan-400"
-    | "bg-yellow-400"
-    | "bg-fuchsia-400"
-    | "bg-lime-400";
+  backgroundColor?: string;
 }
 
 export const Tile: FC<Props> = ({
   angle = 0,
-  backgroundColor = "bg-cyan-400",
+  backgroundColor = "",
   audioUrl = "",
   id,
 }) => {
@@ -23,35 +19,28 @@ export const Tile: FC<Props> = ({
 
   // handling audio
   const audioRef = useRef<Howl | null>(null);
-  useEffect(() => {
-    if (audioUrl) {
+  const playAudio = useCallback(() => {
+    if (!audioRef.current && audioUrl) {
       const sound = new Howl({ src: audioUrl });
       audioRef.current = sound;
     }
+    audioRef.current?.play();
   }, [audioUrl]);
-
-  const playAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.play();
-    }
-  };
 
   const [clicked, setClicked] = useState(false);
   const visualClick = useCallback(
     (showFor: number) => {
-      if (!game.going) {
-        return;
-      }
-      if (audioUrl !== "") {
-        playAudio();
-      }
+      if (!game.going) return;
+      if (audioUrl) playAudio();
       setClicked(true);
 
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setClicked(false);
       }, showFor);
+
+      return () => clearTimeout(timeoutId); // Cleanup
     },
-    [audioUrl, game.going]
+    [game.going, audioUrl, playAudio]
   );
 
   const handleClicked = () => {

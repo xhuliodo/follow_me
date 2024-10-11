@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useGameStore } from "../state/gameStore";
 
-export const Button = () => {
+export const StartEndButton = () => {
   const game = useGameStore();
   const [clicked, setClicked] = useState(false);
   const handleClicked = () => {
