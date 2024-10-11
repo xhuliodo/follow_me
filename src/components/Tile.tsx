@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useGameStore } from "../state/gameStore";
 
 interface Props {
@@ -20,6 +20,20 @@ export const Tile: FC<Props> = ({
 }) => {
   const game = useGameStore();
 
+  // handling audio
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    if (audioUrl) {
+      audioRef.current = new Audio(audioUrl);
+    }
+  }, [audioUrl]);
+  const playAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0; // Reset to the beginning
+      audioRef.current.play();
+    }
+  };
+
   const [clicked, setClicked] = useState(false);
   const visualClick = useCallback(
     (showFor: number) => {
@@ -27,7 +41,7 @@ export const Tile: FC<Props> = ({
         return;
       }
       if (audioUrl !== "") {
-        playAudio(audioUrl);
+        playAudio();
       }
       setClicked(true);
 
@@ -77,7 +91,3 @@ export const Tile: FC<Props> = ({
     ></div>
   );
 };
-
-function playAudio(url: string) {
-  new Audio(url).play();
-}
